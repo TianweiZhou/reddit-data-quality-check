@@ -1,0 +1,6 @@
+apify-client
+pandas
+python-dotenv
+ipykernel
+nbstripout
+anthropic

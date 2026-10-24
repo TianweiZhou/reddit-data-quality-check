@@ -1,0 +1,7 @@
+.env
+.venv/
+apify_cache/
+data_quality_scores.csv
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
