@@ -28,10 +28,11 @@ def _to_dict(o):
 
 
 def run_actor(client, actor_id, run_input, use_cache=True, cache_dir="apify_cache",
-              max_items=None, max_total_charge_usd=None):
+              max_items=None, max_total_charge_usd=None, show_logs=True):
     """Run an Apify actor and return (DataFrame, meta). Cached on disk by actor + input.
 
     max_items and max_total_charge_usd are hard caps that Apify enforces on its side.
+    show_logs=False hides the actor's live log.
     """
     os.makedirs(cache_dir, exist_ok=True)
     key = hashlib.md5(json.dumps([actor_id, run_input], sort_keys=True).encode()).hexdigest()[:12]
@@ -49,6 +50,8 @@ def run_actor(client, actor_id, run_input, use_cache=True, cache_dir="apify_cach
         caps["max_items"] = max_items
     if max_total_charge_usd is not None:
         caps["max_total_charge_usd"] = Decimal(str(max_total_charge_usd))
+    if not show_logs:
+        caps["logger"] = None
     run = _to_dict(client.actor(actor_id).call(run_input=run_input, **caps))
     dataset_id = run.get("defaultDatasetId") or run.get("default_dataset_id")
     items = list(client.dataset(dataset_id).iterate_items())

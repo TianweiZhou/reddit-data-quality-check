@@ -5,3 +5,6 @@ data_quality_scores.csv
 __pycache__/
 .ipynb_checkpoints/
 .DS_Store
+
+# exported demo pages contain scraped Reddit text
+client_demo*.html
